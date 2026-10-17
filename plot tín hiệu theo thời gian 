@@ -1,0 +1,28 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+files = {
+    "Sitdown3": "user_1_sample_3_standup_A.csv",
+    "Sitdown4": "user_1_sample_4_standup_A.csv",
+}
+
+fig, axes = plt.subplots(2, 1, figsize=(10, 7))
+
+for ax, (label, filename) in zip(axes, files.items()):
+    data = pd.read_csv(filename, header=None)
+
+    # Sóng mang đầu tiên trong 52 sóng mang
+    csi = data.iloc[:, 0].to_numpy()
+
+    # Giả sử tốc độ lấy mẫu là 200 packet/giây
+    time = np.arange(len(csi)) / 200
+
+    ax.plot(time, csi, linewidth=0.8)
+    ax.set_title(label)
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("CSI Amplitude")
+    ax.grid(True)
+
+plt.tight_layout()
+plt.savefig("csi_time_result5.png", dpi=150)
+plt.show()
