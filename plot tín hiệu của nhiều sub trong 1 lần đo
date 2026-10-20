@@ -1,0 +1,42 @@
+import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Danh sách file dữ liệu
+files = {
+    "Sitdown - Lan 1": "user_1_sample_1_sitdown_A.csv",
+}
+
+# Chọn file muốn vẽ
+label, filename = list(files.items())[0]
+
+filepath = os.path.join(
+    os.getcwd(), filename
+)
+
+df = pd.read_csv(filepath, header=None)
+df.columns = [f"SC_{i+1}" for i in range(df.shape[1])]
+
+# Trục thời gian
+fs = 200
+time = np.arange(len(df)) / fs
+
+# Các subcarrier cần vẽ
+subcarriers = ["SC_1", "SC_10", "SC_20", "SC_30"]
+
+fig, axes = plt.subplots(2, 2, figsize=(12, 7))
+
+for ax, sc in zip(axes.flat, subcarriers):
+    ax.plot(time, df[sc], linewidth=0.8)
+    ax.set_title(f"{sc}")
+    ax.set_xlabel("Time (s)")
+    ax.set_ylabel("Amplitude")
+    ax.grid(True)
+
+plt.tight_layout()
+plt.savefig(
+    "csi_multi_subcarriers.png",
+    dpi=150
+)
+plt.show()
