@@ -14,7 +14,7 @@ for ax, (label, filename) in zip(axes, files.items()):
     # Sóng mang đầu tiên trong 52 sóng mang
     csi = data.iloc[:, 0].to_numpy()
 
-    # Giả sử tốc độ lấy mẫu là 200 packet/giây
+    # Tốc độ lấy mẫu là 200 packet/giây
     time = np.arange(len(csi)) / 200
 
     ax.plot(time, csi, linewidth=0.8)
